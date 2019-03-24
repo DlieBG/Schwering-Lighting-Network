@@ -26,7 +26,7 @@ import serial
 #if __name__ == "__main__":
 #    ser = serial.Serial(port, 2000000) #Bitte die Schnittstelle aendern!
 def chanval(chan, val):
-	print("")
+	a = ""
 #	ser.write("{0:0=3d}".format(chan)+" "+"{0:0=3d}".format(val))
 	#sys.stdout.write("\r%d -> %d  \t [master@%f]" % (chan,val,0))
 	#sys.stdout.flush()
@@ -47,7 +47,7 @@ def setDmxValue(i, val):
 	if dmxstates[i] != val:
 		dmxstates[i] = val
 		# DMX UPDATE!!! WOW!!!
-		print("Setze Kanal %d auf den Wert %d" % (i, ord(val)))
+		#print("Setze Kanal %d auf den Wert %d" % (i, ord(val)))
 		MESSAGE = "I:0:1:%d:%d" % (i, ord(val))
 		sendsock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
 		sendsock.sendto(str.encode(MESSAGE), ('192.168.0.97', 481))

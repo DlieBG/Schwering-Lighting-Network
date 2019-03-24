@@ -6,20 +6,24 @@ BUFF = 1024
 HOST = '0.0.0.0'# must be input parameter @TODO
 PORT = 481 # must be input parameter @TODO
 
+universtOp = [0]
+universtOp.append(sql.UniversumToOutput(0))
+
 
 def send(IP, UID, Port, Channel, Value):
     MESSAGE = "O:"+str(UID)+":"+str(Port)+":"+str(Channel)+":"+str(Value)
-    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) 
-    sock.sendto(str.encode(MESSAGE), (IP, PORT))
+    #sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) 
+    #sock.sendto(str.encode(MESSAGE), (IP, PORT))
 
 def updateUniversum(Universum, Channel, Value):
     for univ in Universum:
         univ = univ[0]
-        for row in sql.UniversumToOutput(univ):
-            UID = row[0]
-            Port = row[1]
-            IP = sql.getIP(UID)[0][0][0]
-            print("Sende an "+str(UID)+":"+str(Port)+": "+str(univ)+"."+str(Channel)+":"+str(Value))
+        
+        for row in universtOp[1]:
+            UID = "0"#row[0]
+            Port = "1"#row[1]
+            IP = "192.168.0.5"#sql.getIP(UID)[0][0][0]
+            print("Sende SLN Univers "+str(univ)+" an: "+str(UID)+", Port: "+str(Port))
             send(IP, UID, Port, Channel, Value)
 
 def handler(data,addr):
@@ -30,7 +34,7 @@ def handler(data,addr):
         Port = parts[2]
         Channel = parts[3]
         Value = parts[4]
-        ToUniversum = sql.InputToUniversum(UID, Port)
+        ToUniversum = "1"#sql.InputToUniversum(UID, Port)
 
         #print("Neuer Dateneingang:")
         #print("UID: "+UID)
@@ -52,5 +56,5 @@ if __name__=='__main__':
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
     sock.bind(ADDR)
     while 1:
-        data, addr = sock.recvfrom(1024) # buffer size is 1024 bytes
+        data, addr = sock.recvfrom(50) # buffer size is 1024 bytes
         handler(data, addr)
