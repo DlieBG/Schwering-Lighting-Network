@@ -1,14 +1,16 @@
 import sql
-from socket import *
+import socket
 import _thread as thread
  
 BUFF = 1024
-HOST = '127.0.0.1'# must be input parameter @TODO
+HOST = '0.0.0.0'# must be input parameter @TODO
 PORT = 481 # must be input parameter @TODO
 
 
 def send(IP, UID, Port, Channel, Value):
-    print("OK")
+    MESSAGE = "O:"+str(UID)+":"+str(Port)+":"+str(Channel)+":"+str(Value)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) 
+    sock.sendto(str.encode(MESSAGE), (IP, PORT))
 
 def updateUniversum(Universum, Channel, Value):
     for univ in Universum:
@@ -17,37 +19,27 @@ def updateUniversum(Universum, Channel, Value):
             UID = row[0]
             Port = row[1]
             IP = sql.getIP(UID)[0][0][0]
-            print("Sende SLN Univers "+str(univ)+" an: "+str(UID)+", Port: "+str(Port))
+            #print("Sende SLN Univers "+str(univ)+" an: "+str(UID)+", Port: "+str(Port))
             send(IP, UID, Port, Channel, Value)
 
-def handler(clientsock,addr):
-    while 1:
-        try:
-            data = clientsock.recv(BUFF)
-            data = str(data).replace("'", "")[1:]
-            print (data)
-            if data[0] is "I": #Input
-                parts = data.split(":")
-                UID = parts[1]
-                Port = parts[2]
-                Channel = parts[3]
-                Value = parts[4]
-                ToUniversum = sql.InputToUniversum(UID, Port)
+def handler(data,addr):
+    data = str(data).replace("'", "")[1:]
+    if data[0] is "I": #Input
+        parts = data.split(":")
+        UID = parts[1]
+        Port = parts[2]
+        Channel = parts[3]
+        Value = parts[4]
+        ToUniversum = sql.InputToUniversum(UID, Port)
 
-                print("Neuer Dateneingang:")
-                print("UID: "+UID)
-                print("Port: "+Port)
-                print("Kanal: "+Channel)
-                print("Wert: "+Value)
+        #print("Neuer Dateneingang:")
+        #print("UID: "+UID)
+        #print("Port: "+Port)
+        #print("Kanal: "+Channel)
+        #print("Wert: "+Value)
 
-                updateUniversum(ToUniversum, Channel, Value)
+        updateUniversum(ToUniversum, Channel, Value)
 
-
-            if not data:
-                clientsock.close()
-        except error:
-            pass
-        
  
 if __name__=='__main__':
     print("Willkommen im Schwering Lighting Network Master")
@@ -57,12 +49,8 @@ if __name__=='__main__':
     print(sql.Outputs())
 
     ADDR = (HOST, PORT)
-    serversock = socket(AF_INET, SOCK_STREAM)
-    serversock.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
-    serversock.bind(ADDR)
-    serversock.listen(1)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM) # UDP
+    sock.bind(ADDR)
     while 1:
-        print ('Warte auf Verbindung')
-        clientsock, addr = serversock.accept()
-        print ('Verbindung mit:', addr)
-        thread.start_new_thread(handler, (clientsock, addr))
+        data, addr = sock.recvfrom(1024) # buffer size is 1024 bytes
+        handler(data, addr)
