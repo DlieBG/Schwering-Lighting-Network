@@ -52,6 +52,7 @@ void loop() {
 
     if(uid.equals(UID))
     {
+      Serial.println(channel+":"+value);
       analogWrite(channel.toInt(), value.toInt());
     }
   }
