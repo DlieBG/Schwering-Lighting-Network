@@ -1,7 +1,7 @@
 import csv, pyodbc
 
 # set up some constants
-MDB = 'C:/Users/Benedikt/Documents/GitLab/Schwering-Lighting-Network/SLN Master/master.mdb'; DRV = '{Microsoft Access Driver (*.mdb)}'; PWD = ''
+MDB = 'C:/Users/Benedikt/Documents/GitLab/Schwering-Lighting-Network/SLNet Master/master.mdb'; DRV = '{Microsoft Access Driver (*.mdb)}'; PWD = ''
 
 
 def InputToUniversum(UID, Port):
