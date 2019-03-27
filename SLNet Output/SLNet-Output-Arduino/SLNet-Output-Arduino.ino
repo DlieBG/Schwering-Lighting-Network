@@ -2,6 +2,7 @@
 #include <Ethernet.h>
 #include <EthernetUdp.h>        
 #include <string.h>
+#include <DmxSimple.h>
 
 
 String UID = "2";
@@ -15,7 +16,7 @@ IPAddress ip(192, 168, 0, 151);
 unsigned int localPort = 481;      // local port to listen on
 
 // buffers for receiving and sending data
-char packetBuffer[UDP_TX_PACKET_MAX_SIZE];  //buffer to hold incoming packet,
+char packetBuffer[12];  //buffer to hold incoming packet,
 char  ReplyBuffer[] = "ok";       // a string to send back
 
 // An EthernetUDP instance to let us send and receive packets over UDP
@@ -27,7 +28,7 @@ void setup() {
   Ethernet.begin(mac, ip);
   Udp.begin(localPort);
 
-  Serial.begin(9600);
+  Serial.begin(250000);
   digitalWrite(8, LOW);
 }
 
@@ -52,9 +53,10 @@ void loop() {
 
     if(uid.equals(UID))
     {
-      if(channel.toInt()<=10)
+      if(channel.toInt()==9||channel.toInt()==6)
         analogWrite(channel.toInt(), value.toInt());
-      Serial.println(channel+":"+value);
+
+       DmxSimple.write(channel.toInt(), value.toInt());
     }
   }
 }

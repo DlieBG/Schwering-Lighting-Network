@@ -8,9 +8,9 @@ saveUniversumToOutput = {}
 savegetIP = {}
 
 def InputToUniversum(UID, Port):
-    try:
-        return saveInputToUniversum[UID+" "+Port]
-    except IndexError:
+    try: 
+        return saveInputToUniversum[str(UID)+" "+str(Port)]
+    except KeyError:
         nothing = "aha"
 
     # connect to db
@@ -30,7 +30,7 @@ def InputToUniversum(UID, Port):
 def UniversumToOutput(SLNUniversum):
     try:
         return saveUniversumToOutput[SLNUniversum]
-    except IndexError:
+    except KeyError:
         nothing = "aha"
 
     # connect to db
@@ -76,7 +76,7 @@ def Outputs():
 def getIP(UID):
     try:
         return savegetIP[UID]
-    except IndexError:
+    except KeyError:
         nothing = "aha"
     
     # connect to db
