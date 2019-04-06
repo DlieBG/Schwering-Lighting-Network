@@ -16,7 +16,7 @@ IPAddress ip(192, 168, 0, 151);
 unsigned int localPort = 481;      // local port to listen on
 
 // buffers for receiving and sending data
-char packetBuffer[12];  //buffer to hold incoming packet,
+char packetBuffer[14];  //buffer to hold incoming packet,
 char  ReplyBuffer[] = "ok";       // a string to send back
 
 // An EthernetUDP instance to let us send and receive packets over UDP
@@ -53,8 +53,10 @@ void loop() {
 
     if(uid.equals(UID))
     {
-      if(channel.toInt()==9||channel.toInt()==6)
-        analogWrite(channel.toInt(), value.toInt());
+      if(channel.toInt()==1||channel.toInt()==430)
+         analogWrite(9, value.toInt());
+      if(channel.toInt()==2||channel.toInt()==304)
+        analogWrite(6, value.toInt());
 
        DmxSimple.write(channel.toInt(), value.toInt());
     }
