@@ -19,7 +19,7 @@ def updateUniversum(Universum, Channel, Value):
             UID = row[0]
             Port = row[1]
             IP = sql.getIP(UID)[0][0][0]
-            print("Sende an "+str(UID)+":"+str(Port)+": "+str(univ)+"."+str(Channel)+":"+str(Value))
+            print("Sende an "+str(UID)+":"+str(Port)+": "+str(Channel)+":"+str(Value))
             send(IP, UID, Port, Channel, Value)
 
 def handler(data,addr):
