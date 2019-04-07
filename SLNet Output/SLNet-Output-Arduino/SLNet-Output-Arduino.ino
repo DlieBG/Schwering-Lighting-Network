@@ -28,8 +28,10 @@ void setup() {
   Ethernet.begin(mac, ip);
   Udp.begin(localPort);
 
-  Serial.begin(250000);
   digitalWrite(8, LOW);
+
+  DmxSimple.usePin(3);
+  DmxSimple.maxChannel(512);
 }
 
 void loop() {
@@ -54,7 +56,7 @@ void loop() {
     if(uid.equals(UID))
     {
       if(channel.toInt()==1||channel.toInt()==430)
-         analogWrite(9, value.toInt());
+        analogWrite(9, value.toInt());
       if(channel.toInt()==2||channel.toInt()==304)
         analogWrite(6, value.toInt());
 
