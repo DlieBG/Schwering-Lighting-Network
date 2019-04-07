@@ -42,9 +42,7 @@ for i in range(1,514):
 def lhex(h):
     return ':'.join(x.encode('hex') for x in h)
 def setDmxValue(i, val):
-	if dmxstates[i] == -1:
-		dmxstates[i] = val
-	if dmxstates[i] != val:
+	if dmxstates[i] != val or dmxstates[i] == -1:
 		dmxstates[i] = val
 		# DMX UPDATE!!! WOW!!!
 		print("Sende %d:%d zum Master" % (i, val))
@@ -66,7 +64,6 @@ try:
 		
 		if data[8] != 0 or data[9] != 80:
 		# OpDmx
-			print(data[9])
 			continue
 		
 		protverhi = data[10]
@@ -81,7 +78,7 @@ try:
 
 		
 		
-		if dmx[stopper-1] == 255:
+		if dmx[stopper-1] != 0 or dmx[stopper] != 100:
 			print("ETC-Trick!")
 		else:
 			for i in range(0,510):
