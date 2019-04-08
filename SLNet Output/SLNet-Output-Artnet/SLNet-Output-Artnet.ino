@@ -32,21 +32,19 @@ void loop()
   }
   if (r == ART_DMX)
   {
-    // print out our data
-    Serial.print("universe number = ");
-    Serial.print(artnet.getUniverse());
-    Serial.print("\tdata length = ");
-    Serial.print(artnet.getLength());
-    Serial.print("\tsequence n0. = ");
-    Serial.println(artnet.getSequence());
-    Serial.print("DMX data: ");
-    for (int i = 0 ; i < artnet.getLength() ; i++)
+    if(artnet.getDmxFrame()[99]==0&&artnet.getDmxFrame()[100]==100)
     {
-      Serial.print(artnet.getDmxFrame()[i]);
-      Serial.print("  ");
+      for (int i = 0 ; i < artnet.getLength() ; i++)
+      {
+        int channel = i+1;
+        int value = artnet.getDmxFrame()[i];
+        
+        if(channel==1||channel==430)
+          analogWrite(9, value);
+        if(channel==2||channel==304)
+          analogWrite(6, value);
+      }
     }
-    Serial.println();
-    Serial.println();
   }
 }
 
