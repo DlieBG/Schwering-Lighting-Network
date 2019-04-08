@@ -1,13 +1,8 @@
-/*
-This is a basic example that will print out the header and the content of an ArtDmx packet.
-This example uses the read() function and the different getter functions to read the data.
-This example may be copied under the terms of the MIT license, see the LICENSE file for details
-*/
-
 #include <Artnet.h>
 #include <Ethernet.h>
 #include <EthernetUdp.h>
 #include <SPI.h>
+#include <DmxSimple.h>
 
 Artnet artnet;
 
@@ -21,6 +16,9 @@ void setup()
   Serial.begin(115200);
   artnet.begin(mac, ip);
   artnet.setBroadcast(broadcast);
+
+  DmxSimple.usePin(3);
+  DmxSimple.maxChannel(512);
 }
 
 void loop()
@@ -38,6 +36,8 @@ void loop()
       {
         int channel = i+1;
         int value = artnet.getDmxFrame()[i];
+
+        DmxSimple.write(channel, value);
         
         if(channel==1||channel==430)
           analogWrite(9, value);
