@@ -3,15 +3,17 @@
 #include <EthernetUdp.h>        
 #include <string.h>
 #include <DmxSimple.h>
+#include <DMXSerial.h>
 
 
 String UID = "2";
+IPAddress ip(192, 168, 0, 151);
+
 
 
 byte mac[] = {
   0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED
 };
-IPAddress ip(192, 168, 0, 151);
 
 unsigned int localPort = 481;      // local port to listen on
 
@@ -32,6 +34,7 @@ void setup() {
 
   DmxSimple.usePin(3);
   DmxSimple.maxChannel(512);
+  DMXSerial.init(DMXController);
 }
 
 void loop() {
@@ -44,7 +47,7 @@ void loop() {
     
     char* token = strtok(packetBuffer, ":");
     String typ = token;
-    token= strtok(0, ":");
+    token = strtok(0, ":");
     String uid = token;
     token = strtok(0, ":");
     String port = token;
@@ -60,7 +63,8 @@ void loop() {
       if(channel.toInt()==2||channel.toInt()==304)
         analogWrite(6, value.toInt());
 
-       DmxSimple.write(channel.toInt(), value.toInt());
+       //DmxSimple.write(channel.toInt(), value.toInt());
+       DMXSerial.write(channel.toInt(), value.toInt());
     }
   }
 }

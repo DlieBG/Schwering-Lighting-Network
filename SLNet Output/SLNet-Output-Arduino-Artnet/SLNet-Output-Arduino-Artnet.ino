@@ -3,6 +3,7 @@
 #include <EthernetUdp.h>
 #include <SPI.h>
 #include <DmxSimple.h>
+//#include <DMXSerial.h>
 
 Artnet artnet;
 
@@ -18,6 +19,7 @@ void setup()
 
   DmxSimple.usePin(3);
   DmxSimple.maxChannel(512);
+  //DMXSerial.init(DMXController);
 }
 
 void loop()
@@ -36,16 +38,17 @@ void loop()
         int channel = i+1;
         int value = artnet.getDmxFrame()[i];
 
-        if(dmx[i] != artnet.getDmxFrame()[i])
+        if(true)//dmx[i] != artnet.getDmxFrame()[i])
         {
-          dmx[i] = artnet.getDmxFrame()[i];
+          //dmx[i] = artnet.getDmxFrame()[i];
           
           if(channel==1||channel==430)
             analogWrite(9, value);
           if(channel==2||channel==304)
             analogWrite(6, value);
   
-          DmxSimple.write(channel, value);
+          //DmxSimple.write(channel, value);
+          //DMXSerial.write(channel, value);
         }
       }
     }
