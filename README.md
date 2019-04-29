@@ -11,7 +11,7 @@ Besonderheiten:<br>
 Ein SLNet kann auf mehrere Ausgangsnodes gepatcht werden.<br>
 Eingang über Artnet ist möglich.<br>
 Kostengünstige Nodes<br>
-<h4><b>!!!ETC-EOS Visualizer-Output Pollution kann umgangen werden!!!</b></h4><br>
+<h3><b>!!!ETC-EOS Visualizer-Output Pollution kann umgangen werden!!!</b></h3><br>
 </p>
 
 <p>
