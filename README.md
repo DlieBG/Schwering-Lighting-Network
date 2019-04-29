@@ -2,8 +2,8 @@
 <h2>SLNet ist Software für Lichttechnik in der Veranstaltungstechnik.</h2>
 
 <p>
-Das ist ein komplexes Netzwerksystem, welches DMX-Inputs auf ein eingens entwickeltes SLNet Universum patcht und auf andere Nodes ausgibt.
-Das System basiert auf einer Datenbank und wird auch durch diese verwaltet.
+Das ist ein komplexes Netzwerksystem, welches DMX-Inputs auf ein eingens entwickeltes SLNet Universum patcht und auf andere Nodes ausgibt.<br>
+Das System basiert auf einer Datenbank und wird auch durch diese verwaltet.<br>
 </p>
 
 <p>
