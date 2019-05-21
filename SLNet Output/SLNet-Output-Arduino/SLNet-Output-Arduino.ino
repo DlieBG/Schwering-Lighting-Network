@@ -2,7 +2,6 @@
 #include <Ethernet.h>
 #include <EthernetUdp.h>        
 #include <string.h>
-#include <DmxSimple.h>
 #include <DMXSerial.h>
 
 
@@ -31,9 +30,7 @@ void setup() {
   Udp.begin(localPort);
 
   digitalWrite(8, LOW);
-
-  DmxSimple.usePin(3);
-  DmxSimple.maxChannel(512);
+  
   DMXSerial.init(DMXController);
 }
 
@@ -63,7 +60,6 @@ void loop() {
       if(channel.toInt()==2||channel.toInt()==304)
         analogWrite(6, value.toInt());
 
-       //DmxSimple.write(channel.toInt(), value.toInt());
        DMXSerial.write(channel.toInt(), value.toInt());
     }
   }
