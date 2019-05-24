@@ -1,0 +1,15 @@
+// === CHANGELOG
+
+11.01.2010
+  o slightly changed layout 
+    for command line parameter "-s <serialnumber>" 
+
+31.12.2009
+  o enable changing of Time for IBGap
+
+27.05.2009
+  o Artnet restarts if user selects wrong ip
+  o Verbose, Universe, TimeBreak, TimeMark change without saving
+  
+xx.05.2009
+  o initial release (Win32 / LINUX)

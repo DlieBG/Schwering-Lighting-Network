@@ -1,7 +1,7 @@
+#include <DMXSerial.h>
 #include <Artnet.h>
 #include <Ethernet.h>
 #include <SPI.h>
-//#include <DMXSerial.h>
 
 Artnet artnet;
 
@@ -15,7 +15,7 @@ void setup()
 {
   artnet.begin(mac, ip);
   
-  //DMXSerial.init(DMXController);
+  DMXSerial.init(DMXController);
 }
 
 void loop()
@@ -43,7 +43,7 @@ void loop()
           if(channel==2||channel==304)
             analogWrite(6, value);
   
-          //DMXSerial.write(channel, value);
+          DMXSerial.write(channel, value);
         }
       }
     }
