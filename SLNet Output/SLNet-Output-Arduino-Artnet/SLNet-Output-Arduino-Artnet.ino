@@ -1,52 +1,35 @@
 #include <DMXSerial.h>
 #include <Artnet.h>
-#include <Ethernet.h>
-#include <SPI.h>
 
-Artnet artnet;
+const IPAddress ip(192, 168, 0, 151);
+uint8_t mac[] = {0x04, 0xE9, 0xE5, 0x00, 0x69, 0xEC};
 
-byte dmx[512];
-
-// Change ip and mac address for your setup
-byte ip[] = {192, 168, 0, 151};
-byte mac[] = {0x04, 0xE9, 0xE5, 0x00, 0x69, 0xEC};
+ArtnetReceiver artnet;
+uint32_t universe_rec = 0;
+uint32_t universe_send = 1;
 
 void setup()
 {
-  artnet.begin(mac, ip);
-  
-  DMXSerial.init(DMXController);
+    Ethernet.begin(mac, ip);
+    artnet.begin();
+
+    DMXSerial.init(DMXController);
+
+    artnet.subscribe(universe_rec, [&](uint8_t* data, uint16_t size)
+    {
+        for (int i = 0; i < size; i++)
+        {
+            if(i==429)
+                analogWrite(9, data[i]);
+            if(i==303)
+                analogWrite(6, data[i]);
+
+            DMXSerial.write(i+1, data[i]);
+        }
+    });
 }
 
 void loop()
 {
-  uint16_t r = artnet.read();
-  if(r == ART_POLL)
-  {
-    
-  }
-  if (r == ART_DMX)
-  {
-    if(artnet.getDmxFrame()[99]==0&&artnet.getDmxFrame()[100]==100)
-    {
-      for (int i = 0 ; i < artnet.getLength() ; i++)
-      {       
-        int channel = i+1;
-        int value = artnet.getDmxFrame()[i];
-
-        if(dmx[i] != artnet.getDmxFrame()[i])
-        {
-          dmx[i] = artnet.getDmxFrame()[i];
-          
-          if(channel==1||channel==430)
-            analogWrite(9, value);
-          if(channel==2||channel==304)
-            analogWrite(6, value);
-  
-          DMXSerial.write(channel, value);
-        }
-      }
-    }
-  }
+    artnet.parse();
 }
-
