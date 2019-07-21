@@ -1,9 +1,5 @@
 #include <DMXSerial.h>
 #include <Artnet.h>
-#include <SPI.h>
-#include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
 
 const IPAddress ip(192, 168, 0, 151);
 uint8_t mac[] = {0x04, 0xE9, 0xE5, 0x00, 0x69, 0xEC};
@@ -19,10 +15,6 @@ int stopper = 100;
 int raw = 5; //grün
 int etc = 6; //gelb
 int brk = 9; //rot
-
-#define OLED_RESET 4 // not used / nicht genutzt bei diesem Display
-Adafruit_SSD1306 display(OLED_RESET);
-
 
 void output(uint8_t* data, uint16_t size)
 {
@@ -58,33 +50,10 @@ void output(uint8_t* data, uint16_t size)
 }
 
 void setup()
-{
+{  
     analogWrite(raw, 255);
     analogWrite(etc, 255);
     analogWrite(brk, 255);
-    
-    display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
-
-    display.clearDisplay();
-  
-    // set text color / Textfarbe setzen
-    display.setTextColor(WHITE);
-    // set text size / Textgroesse setzen
-    display.setTextSize(1);
-    // set text cursor position / Textstartposition einstellen
-    display.setCursor(1,0);
-    // show text / Text anzeigen
-    display.println("OLED - Display - Test");
-    display.setCursor(14,56);
-    display.println("blog.simtronyx.de");
-    display.setTextSize(2);
-    display.setCursor(34,15);
-    display.println("Hello");
-    display.setCursor(30,34);
-    display.println("World!");
-    display.display();
-
-    delay(10000);
     
     Ethernet.begin(mac, ip);
     artnet.begin();
