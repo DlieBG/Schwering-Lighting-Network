@@ -1,7 +1,7 @@
 #include <DMXSerial.h>
 #include <Artnet.h>
 
-const IPAddress ip(192, 168, 0, 151);
+const IPAddress ip(192, 168, 1, 240);
 uint8_t mac[] = {0x04, 0xE9, 0xE5, 0x00, 0x69, 0xEC};
 
 ArtnetReceiver artnet;
@@ -10,7 +10,7 @@ uint8_t data[size];
 uint32_t universe_rec = 0;
 uint32_t universe_send = 1;
 
-int stopper = 100;
+int stopper = 500;
 
 int raw = 5; //grün
 int etc = 6; //gelb
@@ -31,7 +31,7 @@ void output(uint8_t* data, uint16_t size)
       else
       {
         //Output mit ETC-Trick
-        analogWrite(etc, 255);
+        analogWrite(etc, data[0]);
         analogWrite(raw, 0);
         
         for (int i = 0; i < size; i++)
@@ -52,7 +52,7 @@ void output(uint8_t* data, uint16_t size)
 void setup()
 {  
     analogWrite(raw, 255);
-    analogWrite(etc, 255);
+    analogWrite(etc, 2);
     analogWrite(brk, 255);
     
     Ethernet.begin(mac, ip);
